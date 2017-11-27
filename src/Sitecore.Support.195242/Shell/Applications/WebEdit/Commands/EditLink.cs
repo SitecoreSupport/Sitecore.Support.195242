@@ -59,6 +59,7 @@ namespace Sitecore.Support.Shell.Applications.WebEdit.Commands
       {
         UrlString urlString = new UrlString(Context.Site.XmlControlPage);
         urlString["xmlcontrol"] = "GeneralLink";
+        urlString["la"] = args.Parameters["language"];
         UrlHandle urlHandle = new UrlHandle();
         urlHandle["va"] = new XmlValue(args.Parameters["fieldValue"], "link").ToString();
         urlHandle.Add(urlString);
