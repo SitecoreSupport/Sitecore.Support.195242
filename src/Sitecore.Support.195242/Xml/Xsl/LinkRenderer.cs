@@ -55,7 +55,8 @@ namespace Sitecore.Support.Xml.Xsl
 
       if (string.IsNullOrEmpty(text))
       {
-        var targetItem = this.ResolveTargetItem();
+        // Resolve target item with the correct language and Display Name.
+        var targetItem = this.ResolveTargetItemWithCorrectLanguage();
 
         var displayName = targetItem != null ? targetItem.DisplayName : string.Empty;
 
@@ -109,7 +110,7 @@ namespace Sitecore.Support.Xml.Xsl
       return new RenderFieldResult { FirstPart = link.ToString(), LastPart = "</a>" };
     }
 
-    protected virtual Item ResolveTargetItem()
+    protected virtual Item ResolveTargetItemWithCorrectLanguage()
     {
       if (this.LinkField != null)
       {
