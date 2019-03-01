@@ -42,7 +42,7 @@ namespace Sitecore.Support.Shell.Applications.WebEdit.Commands
         {
 
           string text = (typeof(Sitecore.Shell.Applications.WebEdit.Commands.EditLink)
-            .GetMethod("RenderLink", BindingFlags.NonPublic | BindingFlags.Instance)
+            .GetMethod("RenderLink", BindingFlags.NonPublic | BindingFlags.Static)
             .Invoke(null, new object[] { args })
             as RenderFieldResult).ToString();
           
