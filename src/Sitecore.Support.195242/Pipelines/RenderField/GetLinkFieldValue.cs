@@ -22,7 +22,7 @@ namespace Sitecore.Support.Pipelines.RenderField
         args.WebEditParameters["text"] = args.Parameters["text"];
       }
 
-      LinkRenderer linkRenderer = CreateRenderer(args.Item);
+      var linkRenderer = (Sitecore.Support.Xml.Xsl.LinkRenderer) CreateRenderer(args.Item);
 
       linkRenderer.FieldName = args.FieldName;
       linkRenderer.FieldValue = args.FieldValue;
@@ -54,9 +54,9 @@ namespace Sitecore.Support.Pipelines.RenderField
       }
     }
 
-    protected virtual LinkRenderer CreateRenderer(Item item)
+    protected override Sitecore.Xml.Xsl.LinkRenderer CreateRenderer(Item item)
     {
-      return new LinkRenderer(item);
+      return new Sitecore.Support.Xml.Xsl.LinkRenderer(item);
     }
   }
 }
