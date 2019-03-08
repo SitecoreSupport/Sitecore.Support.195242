@@ -5,12 +5,12 @@ using Sitecore.Xml.Xsl;
 
 namespace Sitecore.Support.Pipelines.RenderField
 {
-  public class GetLinkFieldValue
+  public class GetLinkFieldValue : Sitecore.Pipelines.RenderField.GetLinkFieldValue
   {
     [AllowNull("args")]
-    public void Process(RenderFieldArgs args)
+    public new void Process(RenderFieldArgs args)
     {
-      if (this.SkipProcessor(args))
+      if (SkipProcessor(args))
       {
         return;
       }
@@ -57,17 +57,6 @@ namespace Sitecore.Support.Pipelines.RenderField
     protected virtual LinkRenderer CreateRenderer(Item item)
     {
       return new LinkRenderer(item);
-    }
-
-    protected virtual bool SkipProcessor([CanBeNull] RenderFieldArgs args)
-    {
-      if (args == null)
-      {
-        return true;
-      }
-
-      var fieldTypeKey = args.FieldTypeKey;
-      return fieldTypeKey != "link" && fieldTypeKey != "general link";
     }
   }
 }
