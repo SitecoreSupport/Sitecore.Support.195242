@@ -1,5 +1,6 @@
 ﻿using Sitecore.Data;
 using Sitecore.Diagnostics;
+using Sitecore.Globalization;
 using Sitecore.Web;
 using System;
 using System.Collections.Generic;
@@ -67,7 +68,7 @@ namespace Sitecore.Support.Shell.Applications.Dialogs.GeneralLink
       if (!string.IsNullOrEmpty(itemId) && ID.IsID(itemId))
       {
         var id = new ID(itemId);
-        var itemUri = new ItemUri(id, Client.ContentDatabase);
+        var itemUri = new ItemUri(id, Language.Parse(WebUtil.GetQueryString("la")), Client.ContentDatabase);
         this.InternalLinkDataContext.SetFolder(itemUri);
       }
 

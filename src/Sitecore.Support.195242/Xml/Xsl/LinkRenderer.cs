@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Web;
 using Sitecore.Collections;
+using Sitecore.Data;
 using Sitecore.Data.Items;
 using Sitecore.Xml.Xsl;
 
@@ -51,8 +52,7 @@ namespace Sitecore.Support.Xml.Xsl
 
       if (string.IsNullOrEmpty(text))
       {
-        var targetItem = TargetItem;
-
+        var targetItem = this.ResolveTargetItemWithCorrectLanguage();
         var displayName = targetItem != null ? targetItem.DisplayName : string.Empty;
 
         var fieldText = linkField != null ? linkField.Text : string.Empty;
@@ -102,6 +102,28 @@ namespace Sitecore.Support.Xml.Xsl
       }
 
       return new RenderFieldResult { FirstPart = link.ToString(), LastPart = "</a>" };
-    }  
+    }
+    protected virtual Item ResolveTargetItemWithCorrectLanguage()
+    {
+      if (this.LinkField != null)
+      {
+        ID targetID = this.LinkField.TargetID;
+
+        if (!targetID.IsNull)
+        {
+          return this.LinkField.InnerField.Database.Items[targetID, this.Item.Language];
+        }
+
+        string itemPath = this.LinkField.InternalPath;
+
+        if (itemPath.Length > 0)
+        {
+          return this.LinkField.InnerField.Database.Items[itemPath, this.Item.Language];
+        }
+
+        return null;
+      }
+      return Item;
+    }
   }
 }
