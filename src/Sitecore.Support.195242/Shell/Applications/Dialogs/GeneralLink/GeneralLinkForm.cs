@@ -12,9 +12,9 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 
-namespace Sitecore.Support.Shell.Applications.Dialogs.GeneralLink
+namespace Sitecore.Support.XA.Foundation.SitecoreExtensions.Controls
 {
-  public class GeneralLinkForm : Sitecore.Shell.Applications.Dialogs.GeneralLink.GeneralLinkForm
+  public class GeneralLinkForm : Sitecore.XA.Foundation.SitecoreExtensions.Controls.GeneralLinkForm
   {
     private Type _type = typeof(Sitecore.Shell.Applications.Dialogs.GeneralLink.GeneralLinkForm);
     

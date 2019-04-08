@@ -1,7 +1,6 @@
 ﻿using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
 using Sitecore.Pipelines.RenderField;
-using Sitecore.Support.Xml.Xsl;
 using Sitecore.Xml.Xsl;
 using System;
 using System.Collections.Generic;
@@ -27,7 +26,7 @@ namespace Sitecore.Support.Pipelines.RenderField
         args.WebEditParameters["text"] = args.Parameters["text"];
       }
 
-      Sitecore.Support.Xml.Xsl.LinkRenderer linkRenderer = (Sitecore.Support.Xml.Xsl.LinkRenderer)CreateRenderer(args.Item);
+      Sitecore.Support.XA.Foundation.Multisite.LinkManagers.SxaLinkRenderer linkRenderer = (Sitecore.Support.XA.Foundation.Multisite.LinkManagers.SxaLinkRenderer)CreateRenderer(args.Item);
 
       linkRenderer.FieldName = args.FieldName;
       linkRenderer.FieldValue = args.FieldValue;
@@ -57,9 +56,9 @@ namespace Sitecore.Support.Pipelines.RenderField
     }
 
 
-    protected override Sitecore.Xml.Xsl.LinkRenderer CreateRenderer(Item item)
+    protected virtual Sitecore.Support.XA.Foundation.Multisite.LinkManagers.SxaLinkRenderer CreateRenderer(Item item)
     {
-      return new Sitecore.Support.Xml.Xsl.LinkRenderer(item);
+      return new Sitecore.Support.XA.Foundation.Multisite.LinkManagers.SxaLinkRenderer(item);
     }
   }
 }

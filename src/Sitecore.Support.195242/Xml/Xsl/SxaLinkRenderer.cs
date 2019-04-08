@@ -8,13 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace Sitecore.Support.Xml.Xsl
+namespace Sitecore.Support.XA.Foundation.Multisite.LinkManagers
 {
-  public class LinkRenderer : Sitecore.Xml.Xsl.LinkRenderer
+  public class SxaLinkRenderer : Sitecore.XA.Foundation.Multisite.LinkManagers.SxaLinkRenderer
   {
     readonly char[] _delimiter = new[] { '=', '&' };
 
-    public LinkRenderer(Item item) : base(item)
+    public SxaLinkRenderer(Item item) : base(item)
     {
     }
 

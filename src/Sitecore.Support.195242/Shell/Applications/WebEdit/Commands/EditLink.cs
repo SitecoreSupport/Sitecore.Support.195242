@@ -15,9 +15,9 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 
-namespace Sitecore.Support.Shell.Applications.WebEdit.Commands
+namespace Sitecore.Support.XA.Foundation.Editing.Commands
 {
-  public class EditLink : Sitecore.Shell.Applications.WebEdit.Commands.EditLink
+  public class EditLink : Sitecore.XA.Foundation.Editing.Commands.EditLink
   {
     public override void Execute(CommandContext context)
     {
@@ -27,7 +27,7 @@ namespace Sitecore.Support.Shell.Applications.WebEdit.Commands
       Context.ClientPage.Start(this, "Run", context.Parameters);
     }
 
-    private new static void Run(ClientPipelineArgs args)
+    protected override void Run(ClientPipelineArgs args)
     {
       Assert.ArgumentNotNull(args, "args");
       Item item = Context.ContentDatabase.GetItem(args.Parameters["itemid"]);
@@ -41,12 +41,9 @@ namespace Sitecore.Support.Shell.Applications.WebEdit.Commands
         if (args.HasResult)
         {
 
-          string text = (typeof(Sitecore.Shell.Applications.WebEdit.Commands.EditLink)
-            .GetMethod("RenderLink", BindingFlags.NonPublic | BindingFlags.Static)
-            .Invoke(null, new object[] { args })
-            as RenderFieldResult).ToString();
-          
-          SheerResponse.SetAttribute("scHtmlValue", "value", string.IsNullOrEmpty(text) ? WebEditLinkCommand.GetDefaultText() : text);
+          string text = RenderLink(args).ToString();
+
+          SheerResponse.SetAttribute("scHtmlValue", "value", string.IsNullOrEmpty(text) ? GetDefaultText() : text);
           SheerResponse.SetAttribute("scPlainValue", "value", args.Result);
           ScriptInvokationBuilder scriptInvokationBuilder = new ScriptInvokationBuilder("scSetHtmlValue");
           scriptInvokationBuilder.AddString(value, Array.Empty<object>());
@@ -66,8 +63,10 @@ namespace Sitecore.Support.Shell.Applications.WebEdit.Commands
         UrlHandle urlHandle = new UrlHandle();
         urlHandle["va"] = new XmlValue(args.Parameters["fieldValue"], "link").ToString();
         urlHandle.Add(urlString);
-        urlString.Append("ro", field.Source);
-        Context.ClientPage.ClientResponse.ShowModalDialog(urlString.ToString(), "550", "650", string.Empty, true);
+        Item item2 = Context.ContentDatabase.GetItem(args.Parameters["itemid"]);
+        Assert.IsNotNull(item2, typeof(Item));
+        urlString.Append("ro", ResolveSourceQuery(field.Source, item2));
+        base.Context.ClientPage.ClientResponse.ShowModalDialog(urlString.ToString(), "550", "650", string.Empty, true);
         args.WaitForPostBack();
       }
     }
